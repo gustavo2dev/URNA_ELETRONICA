@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#102a43">
+    <title>DataVotoCesf | Login administrativo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/config.js" defer></script>
+    <script type="module" src="js/admin.js" defer></script>
+  </head>
+  <body class="admin-body" data-page="login">
+    <header class="topo" id="inicio">
+      <a class="marca" href="index.html" aria-label="Voltar para a página pública">
+        <span class="marca-icone" aria-hidden="true">D</span>
+        <span class="marca-texto">
+          <strong>DataVotoCesf</strong>
+          <small>Login administrativo</small>
+        </span>
+      </a>
+      <nav class="navegacao" aria-label="Navegação administrativa">
+        <a href="index.html">Página pública</a>
+      </nav>
+    </header>
+
+    <main class="container admin-page">
+      <section class="admin-card" id="admin-login-view">
+        <h1>Área administrativa</h1>
+        <p>
+          A autenticação é obrigatória e a leitura dos dados fica protegida pelas regras do Firestore.
+        </p>
+
+        <form id="admin-login-form" class="admin-login-form">
+          <label for="admin-email">E-mail autorizado</label>
+          <input id="admin-email" type="email" autocomplete="email" required>
+
+          <label for="admin-password">Senha</label>
+          <input id="admin-password" type="password" autocomplete="current-password" required>
+
+          <button type="submit" class="botao">Entrar</button>
+        </form>
+
+        <p id="admin-login-status" class="admin-status" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+  </body>
+</html>

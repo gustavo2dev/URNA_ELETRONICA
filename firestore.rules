@@ -1,0 +1,53 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function hasAuthorizedEmail() {
+      return request.auth != null &&
+        request.auth.token.email != null &&
+        request.auth.token.email in [
+          "admin@exemplo.com",
+          "seu-email-autorizado@dominio.com"
+        ];
+    }
+
+    function isValidSurveyData() {
+      return request.resource.data.keys().hasOnly([
+        "faixaEtaria",
+        "estuda",
+        "trabalha",
+        "rendaFamiliar",
+        "numeroMoradores",
+        "numeroTrabalhadores",
+        "intencaoVoto",
+        "prioridades",
+        "consentimento",
+        "versaoAvisoPrivacidade",
+        "createdAt"
+      ]) &&
+      request.resource.data.faixaEtaria is string &&
+      request.resource.data.estuda is string &&
+      request.resource.data.trabalha is string &&
+      request.resource.data.rendaFamiliar is string &&
+      request.resource.data.numeroMoradores is number &&
+      request.resource.data.numeroMoradores >= 1 &&
+      request.resource.data.numeroMoradores <= 30 &&
+      request.resource.data.numeroTrabalhadores is number &&
+      request.resource.data.numeroTrabalhadores >= 0 &&
+      request.resource.data.numeroTrabalhadores <= 30 &&
+      request.resource.data.intencaoVoto is string &&
+      request.resource.data.prioridades is list &&
+      request.resource.data.consentimento is bool &&
+      request.resource.data.consentimento == true &&
+      request.resource.data.versaoAvisoPrivacidade is string &&
+      request.resource.data.createdAt == request.time;
+    }
+
+    match /datavoto_cesf_respostas/{respostaId} {
+      allow create: if request.resource.data != null &&
+        request.auth == null &&
+        isValidSurveyData();
+
+      allow read, update, delete: if hasAuthorizedEmail();
+    }
+  }
+}

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#102a43">
+    <title>DataVotoCesf | Dashboard administrativo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+    <script src="js/config.js" defer></script>
+    <script type="module" src="js/admin.js" defer></script>
+  </head>
+  <body class="admin-body" data-page="dashboard">
+    <header class="topo" id="inicio">
+      <a class="marca" href="index.html" aria-label="Voltar para a página pública">
+        <span class="marca-icone" aria-hidden="true">D</span>
+        <span class="marca-texto">
+          <strong>DataVotoCesf</strong>
+          <small>Painel administrativo</small>
+        </span>
+      </a>
+      <nav class="navegacao" aria-label="Navegação administrativa">
+        <a href="index.html">Página pública</a>
+      </nav>
+    </header>
+
+    <main class="container admin-page">
+      <section id="admin-dashboard" class="admin-dashboard">
+        <div class="admin-toolbar">
+          <h1>Indicadores da pesquisa</h1>
+          <div class="toolbar-actions">
+            <button id="refresh-data" class="botao botao-pequeno" type="button">Atualizar</button>
+            <button id="logout-admin" class="botao botao-pequeno botao-secundario" type="button">Sair</button>
+          </div>
+        </div>
+
+        <div id="dashboard-metrics" class="metrics-grid" aria-live="polite"></div>
+
+        <div id="empty-state" class="empty-state" hidden>
+          <p>Ainda não há respostas registradas nesta coleta. Quando os participantes enviarem a pesquisa, os indicadores aparecerão aqui.</p>
+        </div>
+
+        <div class="charts-grid">
+          <article class="chart-card">
+            <h2>Faixa etária</h2>
+            <canvas id="chart-faixa-etaria"></canvas>
+          </article>
+
+          <article class="chart-card">
+            <h2>Situação de estudo e trabalho</h2>
+            <canvas id="chart-estudo-trabalho"></canvas>
+          </article>
+
+          <article class="chart-card">
+            <h2>Renda familiar</h2>
+            <canvas id="chart-renda"></canvas>
+          </article>
+
+          <article class="chart-card">
+            <h2>Moradores e trabalhadores</h2>
+            <canvas id="chart-morador-trabalhador"></canvas>
+          </article>
+
+          <article class="chart-card">
+            <h2>Grau de certeza do voto</h2>
+            <canvas id="chart-intencao-voto"></canvas>
+          </article>
+
+          <article class="chart-card chart-card-large">
+            <h2>Pautas prioritárias</h2>
+            <canvas id="chart-prioridades"></canvas>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

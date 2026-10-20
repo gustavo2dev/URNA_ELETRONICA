@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#102a43">
+    <meta
+      name="description"
+      content="Pesquisa pré-voto e votação secreta do projeto acadêmico DataVotoCesf."
+    >
+    <title>DataVotoCesf | Pesquisa</title>
+    <!-- Os estilos e a lógica ficam separados para facilitar manutenção. -->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/config.js" defer></script>
+    <script type="module" src="js/script.js" defer></script>
+  </head>
+  <body>
+    <header class="topo" id="inicio">
+      <a class="marca" href="#inicio" aria-label="DataVotoCesf, início">
+        <span class="marca-icone" aria-hidden="true">D</span>
+        <span class="marca-texto">
+          <strong>DataVotoCesf</strong>
+          <small>Pesquisa e dados</small>
+        </span>
+      </a>
+      <nav class="navegacao" aria-label="Navegação principal">
+        <a href="#etapas">Como funciona</a>
+        <a class="botao botao-pequeno" href="#pesquisa">Participar</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero container" aria-labelledby="titulo-principal">
+        <div class="hero-texto">
+          <span class="etiqueta">PESQUISA ANTES DO VOTO</span>
+          <h1 id="titulo-principal">
+            Antes de votar, <span>sua opinião também conta.</span>
+          </h1>
+          <p>
+            Participe da pesquisa pré-eleitoral e, em seguida, registre seu
+            voto secreto. São duas etapas separadas, com objetivos diferentes.
+          </p>
+          <a class="botao" href="#pesquisa">
+            Começar pela pesquisa <span aria-hidden="true">→</span>
+          </a>
+          <p class="nota-curta">
+            Participação voluntária · A pesquisa acontece antes da votação.
+          </p>
+        </div>
+
+        <div class="cartao-destaque" aria-hidden="true">
+          <div class="cartao-legenda">
+            <span class="ponto-legenda"></span>
+            <span>Duas etapas independentes</span>
+          </div>
+          <div class="grafico-simples">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="destaque-rodape">
+            <span class="check">✓</span>
+            <span>
+              <strong>Pesquisa e votação</strong>
+              <small>Respostas separadas do voto</small>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section class="sobre container" id="etapas" aria-labelledby="titulo-sobre">
+        <span class="etiqueta">COMO FUNCIONA</span>
+        <h2 id="titulo-sobre">Primeiro a pesquisa. Depois, o voto.</h2>
+        <p class="texto-sobre">
+          O DataVotoCesf é um projeto acadêmico. A pesquisa pré-voto reúne
+          opiniões e prioridades antes da votação. Depois de responder, você
+          poderá registrar seu voto em uma etapa separada. A resposta da
+          pesquisa não será vinculada à escolha na urna.
+        </p>
+        <div class="pontos">
+          <article class="ponto">
+            <span class="ponto-numero">01</span>
+            <h3>Pesquisa pré-voto</h3>
+            <p>Responda sobre sua realidade e suas prioridades antes de votar.</p>
+          </article>
+          <article class="ponto">
+            <span class="ponto-numero">02</span>
+            <h3>Votação secreta</h3>
+            <p>Registre seu voto em uma urna digital separada da pesquisa.</p>
+          </article>
+          <article class="ponto">
+            <span class="ponto-numero">03</span>
+            <h3>Apuração</h3>
+            <p>Os resultados são contabilizados sem exibir respostas individuais.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Primeira etapa: pesquisa anônima, sem dados de localização. -->
+      <section class="secao-pesquisa" id="pesquisa" aria-labelledby="titulo-pesquisa">
+        <div class="container pesquisa-layout">
+          <div class="introducao-form">
+            <span class="etiqueta">ETAPA 1 · ANTES DA VOTAÇÃO</span>
+            <h2 id="titulo-pesquisa">Participe da pesquisa</h2>
+            <p>
+              Compartilhe suas opiniões e prioridades antes de seguir para a
+              urna secreta.
+            </p>
+            <aside class="aviso">
+              <strong>Pesquisa anônima e voto secreto</strong>
+              <p>
+                Não informe seu nome ou localização. A integração deve manter
+                suas respostas sem vínculo com sua identidade e separadas do
+                voto. O envio só será ativado com os controles de sigilo.
+              </p>
+            </aside>
+          </div>
+
+          <form class="formulario" id="formulario-pesquisa">
+            <div class="form-cabecalho">
+              <h3>Sobre você e sua opinião</h3>
+              <span>* obrigatório</span>
+            </div>
+
+            <label for="idade">Qual é sua faixa etária? *</label>
+            <select id="idade" name="faixaEtaria" required>
+              <option value="">Selecione</option>
+              <option>Menos de 16 anos</option>
+              <option>16 a 17 anos</option>
+              <option>18 a 24 anos</option>
+              <option>25 a 34 anos</option>
+              <option>35 a 44 anos</option>
+              <option>45 a 59 anos</option>
+              <option>60 anos ou mais</option>
+              <option>Prefiro não responder</option>
+            </select>
+
+            <div class="duas-colunas">
+              <div class="campo">
+                <label for="estuda">Atualmente, você estuda? *</label>
+                <select id="estuda" name="estuda" required>
+                  <option value="">Selecione</option>
+                  <option>Sim</option>
+                  <option>Não</option>
+                  <option>Prefiro não responder</option>
+                </select>
+              </div>
+              <div class="campo">
+                <label for="trabalha">Atualmente, você trabalha? *</label>
+                <select id="trabalha" name="trabalha" required>
+                  <option value="">Selecione</option>
+                  <option>Sim</option>
+                  <option>Não</option>
+                  <option>Prefiro não responder</option>
+                </select>
+              </div>
+            </div>
+
+            <label for="renda">Faixa de renda familiar mensal *</label>
+            <select id="renda" name="rendaFamiliar" required>
+              <option value="">Selecione</option>
+              <option>Até 1 salário mínimo</option>
+              <option>Mais de 1 até 2 salários mínimos</option>
+              <option>Mais de 2 até 3 salários mínimos</option>
+              <option>Mais de 3 até 5 salários mínimos</option>
+              <option>Mais de 5 salários mínimos</option>
+              <option>Não sei informar</option>
+              <option>Prefiro não responder</option>
+            </select>
+
+            <div class="duas-colunas">
+              <div class="campo">
+                <label for="moradores">Pessoas na residência *</label>
+                <input
+                  id="moradores"
+                  name="numeroMoradores"
+                  type="number"
+                  min="1"
+                  max="30"
+                  placeholder="Ex.: 4"
+                  required
+                >
+              </div>
+              <div class="campo">
+                <label for="trabalhadores">Pessoas que trabalham *</label>
+                <input
+                  id="trabalhadores"
+                  name="numeroTrabalhadores"
+                  type="number"
+                  min="0"
+                  max="30"
+                  placeholder="Ex.: 2"
+                  required
+                >
+              </div>
+            </div>
+
+            <label for="intencao-voto">Como está sua decisão de voto neste momento? *</label>
+            <select id="intencao-voto" name="intencaoVoto" required>
+              <option value="">Selecione</option>
+              <option>Sim, tenho certeza</option>
+              <option>Tenho uma ideia, mas posso mudar</option>
+              <option>Ainda estou em dúvida</option>
+              <option>Prefiro não responder</option>
+            </select>
+
+            <fieldset class="grupo-opcoes">
+              <legend>Quais temas são mais importantes para você? *</legend>
+              <p class="ajuda">Selecione pelo menos um.</p>
+              <div class="opcoes">
+                <label><input type="checkbox" name="prioridades" value="Saúde"> Saúde</label>
+                <label><input type="checkbox" name="prioridades" value="Educação"> Educação</label>
+                <label><input type="checkbox" name="prioridades" value="Segurança"> Segurança</label>
+                <label><input type="checkbox" name="prioridades" value="Emprego e renda"> Emprego e renda</label>
+                <label><input type="checkbox" name="prioridades" value="Infraestrutura"> Infraestrutura</label>
+                <label><input type="checkbox" name="prioridades" value="Meio ambiente"> Meio ambiente</label>
+                <label><input type="checkbox" name="prioridades" value="Moradia"> Moradia</label>
+                <label><input type="checkbox" name="prioridades" value="Transporte"> Transporte</label>
+                <label><input type="checkbox" name="prioridades" value="Outro"> Outro</label>
+              </div>
+            </fieldset>
+
+            <label class="consentimento">
+              <input id="consentimento" type="checkbox" required>
+              Confirmo que respondi voluntariamente e revisei minhas respostas. *
+            </label>
+
+            <p class="mensagem" id="mensagem-pesquisa" role="status" aria-live="polite"></p>
+            <button
+              class="botao botao-enviar"
+              id="botao-enviar-pesquisa"
+              type="submit"
+              disabled
+            >
+              Enviar pesquisa <span aria-hidden="true">→</span>
+            </button>
+            <p class="nota-form">
+              O registro online será habilitado quando a integração segura do
+              backend estiver ativa. Até lá, suas respostas não são enviadas.
+            </p>
+          </form>
+        </div>
+      </section>
+
+      <!-- A urna só é liberada depois que o servidor confirma a pesquisa. -->
+      <section class="secao-votacao" id="votacao" aria-labelledby="titulo-votacao">
+        <div class="container votacao-layout">
+          <div class="introducao-form">
+            <span class="etiqueta">ETAPA 2 · DEPOIS DA PESQUISA</span>
+            <h2 id="titulo-votacao">Seu voto é secreto.</h2>
+            <p>
+              Após concluir a pesquisa, a urna apresenta as opções disponíveis.
+              A escolha do voto é registrada separadamente das respostas da
+              pesquisa.
+            </p>
+          </div>
+
+          <form class="formulario formulario-votacao" id="formulario-votacao">
+            <div class="form-cabecalho">
+              <h3>Urna de votação</h3>
+              <span class="estado-urna" id="estado-backend" role="status">
+                Conexão não configurada
+              </span>
+            </div>
+            <fieldset class="grupo-opcoes opcoes-votacao" disabled>
+              <legend>Escolha uma opção *</legend>
+              <div class="lista-votos" id="opcoes-voto" aria-live="polite">
+                <p>
+                  As opções de voto serão carregadas pelo sistema da votação.
+                </p>
+              </div>
+            </fieldset>
+            <p class="mensagem" id="mensagem-votacao" role="status" aria-live="polite"></p>
+            <button class="botao botao-enviar" type="submit" disabled>
+              Registrar voto secreto
+            </button>
+            <p class="nota-form">
+              A urna será liberada quando o backend estiver conectado e a
+              pesquisa tiver sido registrada.
+            </p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <div class="container rodape-conteudo">
+        <a class="marca" href="#inicio" aria-label="DataVotoCesf, voltar ao início">
+          <span class="marca-icone" aria-hidden="true">D</span>
+          <span class="marca-texto">
+            <strong>DataVotoCesf</strong>
+            <small>Pesquisa e dados</small>
+          </span>
+        </a>
+        <p>Projeto acadêmico · Pesquisa pré-voto e votação secreta</p>
+        <a class="voltar-topo" href="#inicio">Voltar ao início ↑</a>
+      </div>
+    </footer>
+  </body>
+</html>
