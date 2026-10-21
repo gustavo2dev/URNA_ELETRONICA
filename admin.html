@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>DataVotoCesf · Painel restrito</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== Tokens ===== */
+    :root{
+      --ink:#111936; --muted:#55608a; --cobalt:#2a3fd8; --cobalt-dark:#1a2a9c;
+      --chalk:#f2f4fb; --card:#fff; --line:#d6dbee; --sun:#ffc83d; --mint:#17935a;
+      --r:16px;
+      --display:'Bricolage Grotesque','Figtree',system-ui,sans-serif;
+      --body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+    }
+    *{box-sizing:border-box;margin:0}
+    body{font-family:var(--body);font-size:17px;line-height:1.55;background:var(--chalk);color:var(--ink);min-height:100vh}
+    h1,h2,h3{font-family:var(--display);line-height:1.1;letter-spacing:-.02em}
+    a{color:inherit}
+    :focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+    @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+    .topo{background:var(--ink);color:#fff}
+    .topo-barra{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;width:min(100% - 2rem, 1100px);margin-inline:auto}
+    .marca{font-family:var(--display);font-weight:800;font-size:1.25rem;text-decoration:none;letter-spacing:-.02em}
+    .marca small{font-family:var(--body);font-weight:600;font-size:.8rem;opacity:.7;margin-left:.5rem}
+    .topo nav{display:flex;gap:.25rem}
+    .topo nav a{padding:.45rem .9rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.95rem}
+    .topo nav a:hover{background:rgba(255,255,255,.14)}
+
+    .conteudo{width:min(100% - 2rem, 1100px);margin-inline:auto;padding:2.5rem 0 4rem}
+
+    /* ===== Login ===== */
+    .login{max-width:26rem;margin:3rem auto;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:2rem 1.6rem}
+    .login h1{font-size:2rem}
+    .login p{color:var(--muted);margin:.5rem 0 1.5rem}
+    label{font-weight:700;display:block;margin-bottom:.35rem}
+    input[type=password]{width:100%;font:inherit;padding:.8rem .9rem;border:1.5px solid var(--line);border-radius:12px}
+    input[type=password]:focus{outline:3px solid var(--sun);border-color:var(--cobalt)}
+    .btn{font:inherit;font-weight:700;border:0;cursor:pointer;background:var(--cobalt);color:#fff;padding:.9rem 1.6rem;border-radius:999px;margin-top:1.1rem;width:100%;transition:background .15s}
+    .btn:hover{background:var(--cobalt-dark)}
+    .erro{display:none;margin-top:.9rem;color:#a4161a;font-weight:600}
+    /* JS: mostrar .erro (display:block) quando a senha estiver errada */
+
+    /* ===== Painel ===== */
+    /* DEMO sem JS: o botão "Entrar" leva para #painel e o CSS mostra o painel.
+       Isso NÃO é proteção. A verificação real da senha vai no JavaScript. */
+    #painel{display:none}
+    #painel:target{display:block}
+    body:has(#painel:target) .login{display:none}
+
+    .painel-topo{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:1.75rem}
+    .painel-topo h1{font-size:clamp(1.9rem,4vw,2.8rem)}
+    .painel-topo p{color:var(--muted)}
+    .sair{text-decoration:none;font-weight:700;border:1.5px solid var(--ink);padding:.55rem 1.1rem;border-radius:999px}
+    .sair:hover{background:var(--ink);color:#fff}
+
+    /* métricas */
+    .metricas{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.25rem}
+    .metrica{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1.2rem 1.3rem}
+    .metrica span{color:var(--muted);font-weight:600;font-size:.95rem}
+    .metrica strong{display:block;font-family:var(--display);font-weight:800;font-size:2.8rem;line-height:1.1;margin-top:.25rem}
+    .metrica.destaque{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+    .metrica.destaque span{color:rgba(255,255,255,.8)}
+
+    /* gráficos */
+    .graficos{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    .grafico{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1.2rem 1.3rem 1.4rem;min-width:0}
+    .grafico.largo{grid-column:1 / -1}
+    .grafico h2{font-size:1.2rem}
+    .grafico p{color:var(--muted);font-size:.92rem;margin-bottom:1rem}
+    .area{position:relative;height:16rem;border:2px dashed var(--line);border-radius:12px;display:grid;place-items:center;color:var(--muted);font-weight:600;text-align:center;padding:1rem}
+    .area canvas{position:absolute;inset:0;width:100%;height:100%}
+    .area span{position:relative;pointer-events:none}
+
+    /* tabela */
+    .tabela{margin-top:1rem;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1.2rem 1.3rem;overflow-x:auto}
+    .tabela h2{font-size:1.2rem;margin-bottom:.8rem}
+    table{width:100%;border-collapse:collapse;min-width:34rem}
+    th,td{text-align:left;padding:.65rem .7rem;border-bottom:1px solid var(--line);font-size:.95rem}
+    th{font-weight:700;color:var(--muted)}
+    td.vazio{text-align:center;color:var(--muted);padding:1.6rem}
+
+    footer{border-top:1px solid var(--line);padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.9rem}
+    footer div{width:min(100% - 2rem, 1100px);margin-inline:auto}
+
+    @media (max-width:760px){
+      body{font-size:16px}
+      .marca small{display:none}
+      .metricas,.graficos{grid-template-columns:1fr}
+      .area{height:13rem}
+      .metrica strong{font-size:2.3rem}
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topo">
+    <div class="topo-barra">
+      <a class="marca" href="index.html">DataVoto<small>Painel restrito</small></a>
+      <nav aria-label="Principal">
+        <a href="index.html">Pesquisa</a>
+        <a href="voto.html">Votar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="conteudo">
+
+    <!-- ===== Acesso ===== -->
+    <section class="login" aria-labelledby="t-login">
+      <h1 id="t-login">Área restrita</h1>
+      <p>Digite a senha da equipe para ver os resultados.</p>
+      <form id="form-login" action="#painel">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" autocomplete="current-password" required>
+        <button class="btn" type="submit">Entrar no painel</button>
+        <p class="erro" id="erro-login" role="alert">Senha incorreta. Tente de novo.</p>
+      </form>
+    </section>
+
+    <!-- ===== Painel ===== -->
+    <section id="painel" aria-labelledby="t-painel">
+      <div class="painel-topo">
+        <div>
+          <h1 id="t-painel">Resultados da pesquisa</h1>
+          <p>Respostas anônimas de Campo Largo, somadas em tempo real.</p>
+        </div>
+        <a class="sair" href="admin.html">Sair</a>
+      </div>
+
+      <!-- JS: preencher com getDocs(collection(db, "datavoto_cesf_respostas")) -->
+      <div class="metricas">
+        <div class="metrica destaque"><span>Total de respostas</span><strong id="m-total">0</strong></div>
+        <div class="metrica"><span>Média de moradores por casa</span><strong id="m-moradores">0,0</strong></div>
+        <div class="metrica"><span>Média de pessoas que trabalham</span><strong id="m-trabalhadores">0,0</strong></div>
+      </div>
+
+      <!-- JS: criar um gráfico Chart.js em cada <canvas>. Carregar a biblioteca antes do script do painel. -->
+      <div class="graficos">
+        <article class="grafico">
+          <h2>Respostas por faixa etária</h2>
+          <p>Quem está respondendo a pesquisa.</p>
+          <div class="area"><canvas id="g-faixa" aria-label="Gráfico de barras por faixa etária" role="img"></canvas><span>Gráfico de barras</span></div>
+        </article>
+
+        <article class="grafico">
+          <h2>Respostas por bairro</h2>
+          <p>Onde a pesquisa chegou.</p>
+          <div class="area"><canvas id="g-bairro" aria-label="Gráfico por bairro" role="img"></canvas><span>Gráfico de barras</span></div>
+        </article>
+
+        <article class="grafico">
+          <h2>Certeza do voto</h2>
+          <p>Quantos já decidiram e quantos ainda podem mudar.</p>
+          <div class="area"><canvas id="g-certeza" aria-label="Gráfico de rosca sobre a certeza do voto" role="img"></canvas><span>Gráfico de rosca</span></div>
+        </article>
+
+        <article class="grafico">
+          <h2>Renda familiar</h2>
+          <p>Distribuição por faixa de salário mínimo.</p>
+          <div class="area"><canvas id="g-renda" aria-label="Gráfico por renda familiar" role="img"></canvas><span>Gráfico de barras</span></div>
+        </article>
+
+        <article class="grafico largo">
+          <h2>Pautas prioritárias</h2>
+          <p>As áreas que mais aparecem entre as 3 escolhas de cada pessoa.</p>
+          <div class="area"><canvas id="g-pautas" aria-label="Gráfico das pautas prioritárias" role="img"></canvas><span>Gráfico de barras horizontais</span></div>
+        </article>
+
+        <article class="grafico largo">
+          <h2>Resultado da votação simulada</h2>
+          <p>Votos por opção, incluindo brancos e nulos.</p>
+          <div class="area"><canvas id="g-votos" aria-label="Gráfico do resultado da votação simulada" role="img"></canvas><span>Gráfico de barras</span></div>
+        </article>
+      </div>
+
+      <div class="tabela">
+        <h2>Últimas respostas</h2>
+        <table>
+          <thead>
+            <tr><th>Data</th><th>Faixa etária</th><th>Bairro</th><th>Moradores</th><th>Trabalham</th><th>Certeza do voto</th></tr>
+          </thead>
+          <tbody id="linhas">
+            <tr><td class="vazio" colspan="6">Nenhuma resposta ainda. Elas aparecem aqui assim que a pesquisa receber o primeiro envio.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div>Colégio Sagrada Família · Campo Largo/PR · Projeto de Desenvolvimento Backend</div>
+  </footer>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+  <!-- <script type="module" src="admin.js"></script> -->
+</body>
+</html>
