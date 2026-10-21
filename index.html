@@ -2,348 +2,218 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <!-- Faz o site se ajustar à tela do celular -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DataVotoCesf · Pesquisa</title>
-  <meta name="description" content="Pesquisa anônima sobre voto e vida em Campo Largo, do Colégio Sagrada Família.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>DataVotoCesf - Pesquisa</title>
 
   <style>
-    /* ===== Tokens ===== */
-    :root{
-      --ink:#111936; --muted:#55608a; --cobalt:#2a3fd8; --cobalt-dark:#1a2a9c;
-      --chalk:#f2f4fb; --card:#ffffff; --line:#d6dbee; --sun:#ffc83d; --mint:#17935a;
-      --r:16px;
-      --display:'Bricolage Grotesque','Figtree',system-ui,sans-serif;
-      --body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
-    }
-    *{box-sizing:border-box;margin:0}
-    html{scroll-behavior:smooth}
-    body{font-family:var(--body);font-size:17px;line-height:1.55;background:var(--chalk);color:var(--ink)}
-    h1,h2,h3{font-family:var(--display);line-height:1.08;letter-spacing:-.02em}
-    a{color:inherit}
-    :focus-visible{outline:3px solid var(--sun);outline-offset:3px}
-    .wrap{width:min(100% - 2rem, 760px);margin-inline:auto}
-    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+    /* ===== Estilo da página (CSS) ===== */
+    body { font-family: Arial, sans-serif; background: #f0f2f8; color: #1b2340; margin: 0; line-height: 1.5; }
 
-    /* ===== Topo ===== */
-    .topo{background:var(--cobalt);color:#fff}
-    .topo-barra{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;width:min(100% - 2rem, 1040px);margin-inline:auto}
-    .marca{font-family:var(--display);font-weight:800;font-size:1.25rem;text-decoration:none;letter-spacing:-.02em}
-    .marca small{font-family:var(--body);font-weight:600;font-size:.8rem;opacity:.75;margin-left:.5rem}
-    nav{display:flex;gap:.25rem}
-    nav a{padding:.45rem .9rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.95rem}
-    nav a[aria-current="page"]{background:#fff;color:var(--cobalt)}
-    nav a:not([aria-current]):hover{background:rgba(255,255,255,.16)}
+    header { background: #2a3fd8; color: white; padding: 1rem; }
+    header a { color: white; margin-right: 1rem; }
 
-    .hero{width:min(100% - 2rem, 1040px);margin-inline:auto;display:grid;grid-template-columns:1.4fr 1fr;gap:2.5rem;align-items:center;padding:2.5rem 0 4rem}
-    .hero h1{font-size:clamp(2.4rem,6.4vw,4.6rem);font-weight:800}
-    .hero p{margin-top:1.25rem;font-size:1.15rem;max-width:34ch;opacity:.92}
-    .hero .ir{display:inline-block;margin-top:1.75rem;background:var(--sun);color:var(--ink);font-weight:700;padding:.9rem 1.5rem;border-radius:999px;text-decoration:none;transition:transform .15s}
-    .hero .ir:hover{transform:translateY(-2px)}
+    main { max-width: 700px; margin: 1.5rem auto; padding: 0 1rem; }
 
-    /* cédula: o elemento de destaque da página */
-    .cedula{background:#fff;color:var(--ink);border-radius:6px;padding:1.5rem 1.4rem 1.2rem;transform:rotate(2.5deg);box-shadow:0 18px 0 -8px var(--cobalt-dark);position:relative}
-    .cedula::before{content:"";position:absolute;inset:.55rem;border:2px dashed var(--line);border-radius:3px;pointer-events:none}
-    .cedula h2{font-size:1.15rem;margin-bottom:1rem}
-    .cedula ul{list-style:none;padding:0;display:grid;gap:.7rem;font-weight:600}
-    .cedula li{display:flex;align-items:center;gap:.7rem}
-    .cedula li::before{content:"";width:1.05rem;height:1.05rem;border:2px solid var(--ink);border-radius:3px;flex:none}
-    .cedula li:first-child::before{background:var(--cobalt);border-color:var(--cobalt)}
-    .selo{position:absolute;right:-.6rem;bottom:-1.1rem;background:var(--sun);color:var(--ink);font-family:var(--display);font-weight:800;padding:.45rem .9rem;border-radius:999px;transform:rotate(-6deg);font-size:.95rem}
+    /* "caixa" é o quadro branco de cada bloco de perguntas */
+    .caixa { background: white; border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem; }
 
-    /* ===== Formulário ===== */
-    main{padding:3rem 0 4rem}
-    .bloco{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1.6rem 1.5rem 1.8rem;margin-bottom:1.5rem}
-    .bloco>h2{font-size:1.6rem;margin-bottom:.25rem}
-    .bloco>.sub{color:var(--muted);margin-bottom:1.5rem}
-    fieldset{border:0;padding:0;min-width:0;margin-top:1.6rem}
-    fieldset:first-of-type{margin-top:0}
-    legend,label.rotulo{font-weight:700;font-size:1.05rem;margin-bottom:.2rem;padding:0;display:block}
-    .dica{color:var(--muted);font-size:.92rem;margin-bottom:.7rem;display:block}
-    .opcional{font-weight:400;color:var(--muted)}
+    fieldset { border: 0; padding: 0; margin: 0 0 1.2rem 0; }
+    legend, label.titulo { font-weight: bold; margin-bottom: .4rem; display: block; }
 
-    .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}
-    .chip{position:relative}
-    .chip input{position:absolute;opacity:0;width:1px;height:1px}
-    .chip span{display:block;padding:.6rem 1.05rem;border:1.5px solid var(--line);border-radius:999px;background:#fff;cursor:pointer;font-weight:600;transition:background .15s,border-color .15s}
-    .chip:hover span{border-color:var(--cobalt)}
-    .chip input:checked+span{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
-    .chip input:focus-visible+span{outline:3px solid var(--sun);outline-offset:2px}
-    .escala .chip span{min-width:3.1rem;text-align:center}
-    .legenda-escala{display:flex;justify-content:space-between;color:var(--muted);font-size:.88rem;margin-top:.4rem;max-width:22rem}
+    /* Cada opção de resposta (rádio ou checkbox) */
+    .opcao { display: block; padding: .5rem .7rem; border: 1px solid #dde1f0; border-radius: 8px; margin: .3rem 0; cursor: pointer; }
+    .opcao:hover { background: #eef0ff; }
+    .opcao input { margin-right: .5rem; }
 
-    select,input[type=number],textarea{width:100%;max-width:26rem;font:inherit;color:inherit;padding:.75rem .9rem;border:1.5px solid var(--line);border-radius:12px;background:#fff}
-    select:focus,input[type=number]:focus,textarea:focus{outline:3px solid var(--sun);border-color:var(--cobalt)}
-    textarea{max-width:100%;min-height:7rem;resize:vertical}
-    .par{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.6rem}
-    .par input{max-width:none}
+    select, input[type="number"], textarea { width: 100%; padding: .6rem; border: 1px solid #ccd1e6; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
 
-    .enviar{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;margin-top:2rem}
-    .btn{font:inherit;font-weight:700;border:0;cursor:pointer;background:var(--ink);color:#fff;padding:1rem 1.8rem;border-radius:999px;transition:background .15s}
-    .btn:hover{background:var(--cobalt)}
-    .aviso{color:var(--muted);font-size:.92rem}
+    button { background: #2a3fd8; color: white; border: 0; padding: .8rem 1.4rem; border-radius: 8px; font-size: 1rem; cursor: pointer; }
+    button:hover { background: #1a2a9c; }
 
-    footer{border-top:1px solid var(--line);padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.9rem}
-    footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.75rem}
-
-    @media (max-width:760px){
-      body{font-size:16px}
-      .hero{grid-template-columns:1fr;padding-bottom:3rem}
-      .cedula{max-width:20rem;margin-top:.5rem}
-      .marca small{display:none}
-      .par{grid-template-columns:1fr}
-      .bloco{padding:1.3rem 1.1rem 1.5rem}
-    }
+    footer { text-align: center; color: #667; padding: 1.5rem; font-size: .9rem; }
   </style>
 </head>
+
 <body>
 
-  <header class="topo">
-    <div class="topo-barra">
-      <a class="marca" href="index.html">DataVoto<small>Colégio Sagrada Família</small></a>
-      <nav aria-label="Principal">
-        <a href="index.html" aria-current="page">Pesquisa</a>
-        <a href="voto.html">Votar</a>
-      </nav>
-    </div>
-
-    <div class="hero">
-      <div>
-        <h1>Sem nome. Sem CPF. Só a sua opinião.</h1>
-        <p>Pesquisa anônima sobre voto e vida em Campo Largo. Leva cerca de 5 minutos.</p>
-        <a class="ir" href="#pesquisa">Começar a pesquisa</a>
-      </div>
-      <aside class="cedula" aria-label="Resumo da pesquisa">
-        <h2>O que vamos perguntar</h2>
-        <ul>
-          <li>Quem é você e onde mora</li>
-          <li>Como é a sua casa</li>
-          <li>Como você pensa o voto</li>
-          <li>O que a cidade precisa</li>
-        </ul>
-        <span class="selo">100% anônima</span>
-      </aside>
-    </div>
+  <header>
+    <h1>DataVotoCesf</h1>
+    <a href="index.html">Pesquisa</a>
+    <a href="voto.html">Votar</a>
   </header>
 
-  <main id="pesquisa">
-    <div class="wrap">
+  <main>
+    <h2>Pesquisa sobre voto e vida em Campo Largo</h2>
+    <p>É anônima: não pedimos nome nem CPF. Leva cerca de 5 minutos.</p>
 
-      <!-- JS (Firebase): ouvir o evento "submit" deste formulário, usar event.preventDefault(),
-           converter moradores/trabalhadores com Number() e gravar em datavoto_cesf_respostas -->
-      <form id="form-pesquisa">
+    <!-- O JavaScript vai ler este formulário e salvar no Firebase -->
+    <form id="form-pesquisa">
 
-        <!-- ===== BLOCO 1 ===== -->
-        <section class="bloco" aria-labelledby="b1">
-          <h2 id="b1">Sobre você</h2>
-          <p class="sub">Só o necessário para agrupar as respostas.</p>
+      <!-- ===== Bloco 1 ===== -->
+      <div class="caixa">
+        <h3>Sobre você</h3>
 
-          <fieldset>
-            <legend>Qual a sua faixa etária?</legend>
-            <div class="chips">
-              <label class="chip"><input type="radio" name="faixaEtaria" value="16-17" required><span>16 a 17</span></label>
-              <label class="chip"><input type="radio" name="faixaEtaria" value="18-24"><span>18 a 24</span></label>
-              <label class="chip"><input type="radio" name="faixaEtaria" value="25-34"><span>25 a 34</span></label>
-              <label class="chip"><input type="radio" name="faixaEtaria" value="35-44"><span>35 a 44</span></label>
-              <label class="chip"><input type="radio" name="faixaEtaria" value="45-59"><span>45 a 59</span></label>
-              <label class="chip"><input type="radio" name="faixaEtaria" value="60+"><span>60 ou mais</span></label>
-            </div>
-          </fieldset>
+        <fieldset>
+          <legend>Qual a sua faixa etária?</legend>
+          <label class="opcao"><input type="radio" name="faixaEtaria" value="16-17" required> 16 a 17 anos</label>
+          <label class="opcao"><input type="radio" name="faixaEtaria" value="18-24"> 18 a 24 anos</label>
+          <label class="opcao"><input type="radio" name="faixaEtaria" value="25-34"> 25 a 34 anos</label>
+          <label class="opcao"><input type="radio" name="faixaEtaria" value="35-44"> 35 a 44 anos</label>
+          <label class="opcao"><input type="radio" name="faixaEtaria" value="45-59"> 45 a 59 anos</label>
+          <label class="opcao"><input type="radio" name="faixaEtaria" value="60+"> 60 anos ou mais</label>
+        </fieldset>
 
-          <fieldset>
-            <label class="rotulo" for="bairro">Em que bairro de Campo Largo você mora?</label>
-            <span class="dica">Complete a lista com os bairros que a equipe quiser cobrir.</span>
-            <select id="bairro" name="bairro" required>
-              <option value="" selected disabled>Escolha o bairro</option>
-              <option>Centro</option>
-              <option>Cercadinho</option>
-              <option>Itaqui</option>
-              <option>Jardim Paulista</option>
-              <option>Rondinha</option>
-              <option>Vila Bancária</option>
-              <option>Vila Glória</option>
-              <option>Outro bairro ou zona rural</option>
-            </select>
-          </fieldset>
+        <fieldset>
+          <label class="titulo" for="bairro">Em que bairro de Campo Largo você mora?</label>
+          <!-- Complete a lista com os bairros que a equipe quiser -->
+          <select id="bairro" name="bairro" required>
+            <option value="">Escolha o bairro</option>
+            <option>Centro</option>
+            <option>Cercadinho</option>
+            <option>Itaqui</option>
+            <option>Jardim Paulista</option>
+            <option>Rondinha</option>
+            <option>Vila Bancária</option>
+            <option>Vila Glória</option>
+            <option>Outro bairro ou zona rural</option>
+          </select>
+        </fieldset>
 
-          <fieldset>
-            <legend>Qual é a sua rotina hoje?</legend>
-            <div class="chips">
-              <label class="chip"><input type="radio" name="rotina" value="estuda" required><span>Só estudo</span></label>
-              <label class="chip"><input type="radio" name="rotina" value="trabalha"><span>Só trabalho</span></label>
-              <label class="chip"><input type="radio" name="rotina" value="estuda-trabalha"><span>Estudo e trabalho</span></label>
-              <label class="chip"><input type="radio" name="rotina" value="nenhum"><span>Nenhum dos dois</span></label>
-            </div>
-          </fieldset>
-        </section>
+        <fieldset>
+          <legend>Qual é a sua rotina hoje?</legend>
+          <label class="opcao"><input type="radio" name="rotina" value="estuda" required> Só estudo</label>
+          <label class="opcao"><input type="radio" name="rotina" value="trabalha"> Só trabalho</label>
+          <label class="opcao"><input type="radio" name="rotina" value="estuda-trabalha"> Estudo e trabalho</label>
+          <label class="opcao"><input type="radio" name="rotina" value="nenhum"> Nenhum dos dois</label>
+        </fieldset>
+      </div>
 
-        <!-- ===== BLOCO 2 ===== -->
-        <section class="bloco" aria-labelledby="b2">
-          <h2 id="b2">Sua casa</h2>
-          <p class="sub">Ajuda a entender como as prioridades mudam de acordo com a realidade de cada família.</p>
+      <!-- ===== Bloco 2 ===== -->
+      <div class="caixa">
+        <h3>Sua casa</h3>
 
-          <fieldset>
-            <legend>Qual é a renda mensal somada da sua família?</legend>
-            <span class="dica">Some o que todas as pessoas da casa recebem.</span>
-            <div class="chips">
-              <label class="chip"><input type="radio" name="rendaFamiliar" value="ate-1" required><span>Até 1 salário mínimo</span></label>
-              <label class="chip"><input type="radio" name="rendaFamiliar" value="1-2"><span>De 1 a 2</span></label>
-              <label class="chip"><input type="radio" name="rendaFamiliar" value="2-3"><span>De 2 a 3</span></label>
-              <label class="chip"><input type="radio" name="rendaFamiliar" value="3-5"><span>De 3 a 5</span></label>
-              <label class="chip"><input type="radio" name="rendaFamiliar" value="5-10"><span>De 5 a 10</span></label>
-              <label class="chip"><input type="radio" name="rendaFamiliar" value="10+"><span>Mais de 10</span></label>
-              <label class="chip"><input type="radio" name="rendaFamiliar" value="nao-informar"><span>Prefiro não informar</span></label>
-            </div>
-          </fieldset>
+        <fieldset>
+          <legend>Qual é a renda mensal somada da sua família?</legend>
+          <label class="opcao"><input type="radio" name="rendaFamiliar" value="ate-1" required> Até 1 salário mínimo</label>
+          <label class="opcao"><input type="radio" name="rendaFamiliar" value="1-2"> De 1 a 2 salários</label>
+          <label class="opcao"><input type="radio" name="rendaFamiliar" value="2-3"> De 2 a 3 salários</label>
+          <label class="opcao"><input type="radio" name="rendaFamiliar" value="3-5"> De 3 a 5 salários</label>
+          <label class="opcao"><input type="radio" name="rendaFamiliar" value="5-10"> De 5 a 10 salários</label>
+          <label class="opcao"><input type="radio" name="rendaFamiliar" value="10+"> Mais de 10 salários</label>
+          <label class="opcao"><input type="radio" name="rendaFamiliar" value="nao-informar"> Prefiro não informar</label>
+        </fieldset>
 
-          <fieldset>
-            <legend>Quantas pessoas moram e quantas trabalham na sua casa?</legend>
-            <span class="dica">Conte você também.</span>
-            <div class="par">
-              <div>
-                <label for="moradores">Moram na casa</label>
-                <input type="number" id="moradores" name="moradores" min="1" max="30" inputmode="numeric" placeholder="Ex.: 4" required>
-              </div>
-              <div>
-                <label for="trabalhadores">Trabalham</label>
-                <input type="number" id="trabalhadores" name="trabalhadores" min="0" max="30" inputmode="numeric" placeholder="Ex.: 2" required>
-              </div>
-            </div>
-          </fieldset>
-        </section>
+        <fieldset>
+          <label class="titulo" for="moradores">Quantas pessoas moram na sua casa? (conte você)</label>
+          <input type="number" id="moradores" name="moradores" min="1" max="30" required>
+        </fieldset>
 
-        <!-- ===== BLOCO 3 ===== -->
-        <section class="bloco" aria-labelledby="b3">
-          <h2 id="b3">Como você pensa o voto</h2>
-          <p class="sub">Não existe resposta certa. Escolha a que mais se parece com você.</p>
+        <fieldset>
+          <label class="titulo" for="trabalhadores">Quantas dessas pessoas trabalham?</label>
+          <input type="number" id="trabalhadores" name="trabalhadores" min="0" max="30" required>
+        </fieldset>
+      </div>
 
-          <fieldset>
-            <legend>Quanto você se interessa por política?</legend>
-            <div class="chips escala">
-              <label class="chip"><input type="radio" name="interessePolitica" value="1" required><span>1</span></label>
-              <label class="chip"><input type="radio" name="interessePolitica" value="2"><span>2</span></label>
-              <label class="chip"><input type="radio" name="interessePolitica" value="3"><span>3</span></label>
-              <label class="chip"><input type="radio" name="interessePolitica" value="4"><span>4</span></label>
-              <label class="chip"><input type="radio" name="interessePolitica" value="5"><span>5</span></label>
-            </div>
-            <div class="legenda-escala"><span>Nenhum</span><span>Muito</span></div>
-          </fieldset>
+      <!-- ===== Bloco 3 ===== -->
+      <div class="caixa">
+        <h3>Como você pensa o voto</h3>
 
-          <fieldset>
-            <legend>Você já decidiu em quem vai votar?</legend>
-            <div class="chips">
-              <label class="chip"><input type="radio" name="certezaVoto" value="decidido-firme" required><span>Já decidi e não mudo</span></label>
-              <label class="chip"><input type="radio" name="certezaVoto" value="decidido-pode-mudar"><span>Já decidi, mas posso mudar</span></label>
-              <label class="chip"><input type="radio" name="certezaVoto" value="indeciso"><span>Ainda não decidi</span></label>
-              <label class="chip"><input type="radio" name="certezaVoto" value="branco-nulo"><span>Pretendo votar branco ou nulo</span></label>
-              <label class="chip"><input type="radio" name="certezaVoto" value="nao-votar"><span>Não pretendo votar</span></label>
-            </div>
-          </fieldset>
+        <fieldset>
+          <legend>Quanto você se interessa por política?</legend>
+          <label class="opcao"><input type="radio" name="interessePolitica" value="1" required> 1 - Nenhum</label>
+          <label class="opcao"><input type="radio" name="interessePolitica" value="2"> 2</label>
+          <label class="opcao"><input type="radio" name="interessePolitica" value="3"> 3</label>
+          <label class="opcao"><input type="radio" name="interessePolitica" value="4"> 4</label>
+          <label class="opcao"><input type="radio" name="interessePolitica" value="5"> 5 - Muito</label>
+        </fieldset>
 
-          <fieldset>
-            <legend>O que mais pesa na sua decisão?</legend>
-            <div class="chips">
-              <label class="chip"><input type="radio" name="fatorDecisao" value="propostas" required><span>As propostas</span></label>
-              <label class="chip"><input type="radio" name="fatorDecisao" value="experiencia"><span>A experiência e o histórico</span></label>
-              <label class="chip"><input type="radio" name="fatorDecisao" value="honestidade"><span>A honestidade</span></label>
-              <label class="chip"><input type="radio" name="fatorDecisao" value="partido"><span>O partido</span></label>
-              <label class="chip"><input type="radio" name="fatorDecisao" value="familia-amigos"><span>Família e amigos</span></label>
-              <label class="chip"><input type="radio" name="fatorDecisao" value="redes"><span>O que vejo nas redes</span></label>
-              <label class="chip"><input type="radio" name="fatorDecisao" value="nao-sei"><span>Ainda não sei</span></label>
-            </div>
-          </fieldset>
+        <fieldset>
+          <legend>Você já decidiu em quem vai votar?</legend>
+          <label class="opcao"><input type="radio" name="certezaVoto" value="decidido-firme" required> Já decidi e não mudo</label>
+          <label class="opcao"><input type="radio" name="certezaVoto" value="decidido-pode-mudar"> Já decidi, mas posso mudar</label>
+          <label class="opcao"><input type="radio" name="certezaVoto" value="indeciso"> Ainda não decidi</label>
+          <label class="opcao"><input type="radio" name="certezaVoto" value="branco-nulo"> Pretendo votar branco ou nulo</label>
+          <label class="opcao"><input type="radio" name="certezaVoto" value="nao-votar"> Não pretendo votar</label>
+        </fieldset>
 
-          <fieldset>
-            <legend>Existe algum perfil de candidato em quem você não votaria de jeito nenhum?</legend>
-            <span class="dica">Marque quantos quiser.</span>
-            <div class="chips">
-              <label class="chip"><input type="checkbox" name="rejeicao" value="sem-propostas"><span>Quem não apresenta propostas claras</span></label>
-              <label class="chip"><input type="checkbox" name="rejeicao" value="promessas-descumpridas"><span>Quem já descumpriu promessas</span></label>
-              <label class="chip"><input type="checkbox" name="rejeicao" value="denuncias"><span>Quem tem denúncias de corrupção</span></label>
-              <label class="chip"><input type="checkbox" name="rejeicao" value="ataques-pessoais"><span>Quem ataca adversários pessoalmente</span></label>
-              <label class="chip"><input type="checkbox" name="rejeicao" value="nenhum"><span>Nenhum, avalio caso a caso</span></label>
-            </div>
-          </fieldset>
+        <fieldset>
+          <legend>O que mais pesa na sua decisão?</legend>
+          <label class="opcao"><input type="radio" name="fatorDecisao" value="propostas" required> As propostas</label>
+          <label class="opcao"><input type="radio" name="fatorDecisao" value="experiencia"> A experiência e o histórico</label>
+          <label class="opcao"><input type="radio" name="fatorDecisao" value="honestidade"> A honestidade</label>
+          <label class="opcao"><input type="radio" name="fatorDecisao" value="partido"> O partido</label>
+          <label class="opcao"><input type="radio" name="fatorDecisao" value="familia-amigos"> Família e amigos</label>
+          <label class="opcao"><input type="radio" name="fatorDecisao" value="redes"> O que vejo nas redes</label>
+          <label class="opcao"><input type="radio" name="fatorDecisao" value="nao-sei"> Ainda não sei</label>
+        </fieldset>
 
-          <fieldset>
-            <legend>Onde você se informa sobre as eleições?</legend>
-            <span class="dica">Marque quantos quiser.</span>
-            <div class="chips">
-              <label class="chip"><input type="checkbox" name="fontesInformacao" value="redes"><span>Redes sociais</span></label>
-              <label class="chip"><input type="checkbox" name="fontesInformacao" value="whatsapp"><span>WhatsApp</span></label>
-              <label class="chip"><input type="checkbox" name="fontesInformacao" value="tv"><span>TV</span></label>
-              <label class="chip"><input type="checkbox" name="fontesInformacao" value="radio"><span>Rádio</span></label>
-              <label class="chip"><input type="checkbox" name="fontesInformacao" value="sites-jornais"><span>Sites e jornais</span></label>
-              <label class="chip"><input type="checkbox" name="fontesInformacao" value="familia-amigos"><span>Família e amigos</span></label>
-              <label class="chip"><input type="checkbox" name="fontesInformacao" value="escola"><span>Escola</span></label>
-              <label class="chip"><input type="checkbox" name="fontesInformacao" value="nenhuma"><span>Não me informo</span></label>
-            </div>
-          </fieldset>
-        </section>
+        <fieldset>
+          <legend>Existe algum perfil de candidato em quem você não votaria de jeito nenhum? (marque quantos quiser)</legend>
+          <label class="opcao"><input type="checkbox" name="rejeicao" value="sem-propostas"> Quem não apresenta propostas claras</label>
+          <label class="opcao"><input type="checkbox" name="rejeicao" value="promessas-descumpridas"> Quem já descumpriu promessas</label>
+          <label class="opcao"><input type="checkbox" name="rejeicao" value="denuncias"> Quem tem denúncias de corrupção</label>
+          <label class="opcao"><input type="checkbox" name="rejeicao" value="ataques-pessoais"> Quem ataca adversários pessoalmente</label>
+          <label class="opcao"><input type="checkbox" name="rejeicao" value="nenhum"> Nenhum, avalio caso a caso</label>
+        </fieldset>
 
-        <!-- ===== BLOCO 4 ===== -->
-        <section class="bloco" aria-labelledby="b4">
-          <h2 id="b4">O que a cidade precisa</h2>
-          <p class="sub">A parte que mais interessa a quem vai governar.</p>
+        <fieldset>
+          <legend>Onde você se informa sobre as eleições? (marque quantos quiser)</legend>
+          <label class="opcao"><input type="checkbox" name="fontesInformacao" value="redes"> Redes sociais</label>
+          <label class="opcao"><input type="checkbox" name="fontesInformacao" value="whatsapp"> WhatsApp</label>
+          <label class="opcao"><input type="checkbox" name="fontesInformacao" value="tv"> TV</label>
+          <label class="opcao"><input type="checkbox" name="fontesInformacao" value="radio"> Rádio</label>
+          <label class="opcao"><input type="checkbox" name="fontesInformacao" value="sites-jornais"> Sites e jornais</label>
+          <label class="opcao"><input type="checkbox" name="fontesInformacao" value="familia-amigos"> Família e amigos</label>
+          <label class="opcao"><input type="checkbox" name="fontesInformacao" value="escola"> Escola</label>
+          <label class="opcao"><input type="checkbox" name="fontesInformacao" value="nenhuma"> Não me informo</label>
+        </fieldset>
+      </div>
 
-          <fieldset>
-            <legend>Como você avalia os serviços públicos do seu bairro?</legend>
-            <span class="dica">Pense em ruas, iluminação, coleta de lixo, postos de saúde e escolas.</span>
-            <div class="chips escala">
-              <label class="chip"><input type="radio" name="avaliacaoBairro" value="1" required><span>1</span></label>
-              <label class="chip"><input type="radio" name="avaliacaoBairro" value="2"><span>2</span></label>
-              <label class="chip"><input type="radio" name="avaliacaoBairro" value="3"><span>3</span></label>
-              <label class="chip"><input type="radio" name="avaliacaoBairro" value="4"><span>4</span></label>
-              <label class="chip"><input type="radio" name="avaliacaoBairro" value="5"><span>5</span></label>
-            </div>
-            <div class="legenda-escala"><span>Péssimos</span><span>Ótimos</span></div>
-          </fieldset>
+      <!-- ===== Bloco 4 ===== -->
+      <div class="caixa">
+        <h3>O que a cidade precisa</h3>
 
-          <fieldset>
-            <legend>Quais são as 3 pautas mais importantes para você?</legend>
-            <span class="dica">Escolha até 3. <!-- JS: bloquear a 4ª marcação em name="pautas" --></span>
-            <div class="chips">
-              <label class="chip"><input type="checkbox" name="pautas" value="saude"><span>Saúde</span></label>
-              <label class="chip"><input type="checkbox" name="pautas" value="educacao"><span>Educação</span></label>
-              <label class="chip"><input type="checkbox" name="pautas" value="seguranca"><span>Segurança</span></label>
-              <label class="chip"><input type="checkbox" name="pautas" value="emprego-renda"><span>Emprego e renda</span></label>
-              <label class="chip"><input type="checkbox" name="pautas" value="transporte"><span>Transporte e mobilidade</span></label>
-              <label class="chip"><input type="checkbox" name="pautas" value="saneamento-ambiente"><span>Saneamento e meio ambiente</span></label>
-              <label class="chip"><input type="checkbox" name="pautas" value="moradia"><span>Moradia</span></label>
-              <label class="chip"><input type="checkbox" name="pautas" value="esporte-cultura"><span>Esporte, cultura e lazer</span></label>
-              <label class="chip"><input type="checkbox" name="pautas" value="corrupcao"><span>Combate à corrupção</span></label>
-            </div>
-          </fieldset>
+        <fieldset>
+          <legend>Como você avalia os serviços públicos do seu bairro? (ruas, iluminação, lixo, saúde, escolas)</legend>
+          <label class="opcao"><input type="radio" name="avaliacaoBairro" value="1" required> 1 - Péssimos</label>
+          <label class="opcao"><input type="radio" name="avaliacaoBairro" value="2"> 2</label>
+          <label class="opcao"><input type="radio" name="avaliacaoBairro" value="3"> 3</label>
+          <label class="opcao"><input type="radio" name="avaliacaoBairro" value="4"> 4</label>
+          <label class="opcao"><input type="radio" name="avaliacaoBairro" value="5"> 5 - Ótimos</label>
+        </fieldset>
 
-          <fieldset>
-            <label class="rotulo" for="mudanca">Se pudesse mudar uma coisa no seu bairro amanhã, o que seria? <span class="opcional">(opcional)</span></label>
-            <span class="dica">Não escreva nomes, telefones ou endereços.</span>
-            <textarea id="mudanca" name="mudancaBairro" maxlength="280" placeholder="Escreva em poucas palavras"></textarea>
-          </fieldset>
+        <fieldset>
+          <legend>Quais são as 3 pautas mais importantes para você? (escolha até 3)</legend>
+          <!-- JS: impedir que marquem mais de 3 -->
+          <label class="opcao"><input type="checkbox" name="pautas" value="saude"> Saúde</label>
+          <label class="opcao"><input type="checkbox" name="pautas" value="educacao"> Educação</label>
+          <label class="opcao"><input type="checkbox" name="pautas" value="seguranca"> Segurança</label>
+          <label class="opcao"><input type="checkbox" name="pautas" value="emprego-renda"> Emprego e renda</label>
+          <label class="opcao"><input type="checkbox" name="pautas" value="transporte"> Transporte e mobilidade</label>
+          <label class="opcao"><input type="checkbox" name="pautas" value="saneamento-ambiente"> Saneamento e meio ambiente</label>
+          <label class="opcao"><input type="checkbox" name="pautas" value="moradia"> Moradia</label>
+          <label class="opcao"><input type="checkbox" name="pautas" value="esporte-cultura"> Esporte, cultura e lazer</label>
+          <label class="opcao"><input type="checkbox" name="pautas" value="corrupcao"> Combate à corrupção</label>
+        </fieldset>
 
-          <div class="enviar">
-            <button class="btn" type="submit">Enviar minhas respostas</button>
-            <p class="aviso">Nenhum dado pessoal é pedido ou guardado.</p>
-          </div>
-        </section>
+        <fieldset>
+          <label class="titulo" for="mudanca">Se pudesse mudar uma coisa no seu bairro amanhã, o que seria? (opcional)</label>
+          <textarea id="mudanca" name="mudancaBairro" rows="4" maxlength="280" placeholder="Não escreva nomes nem telefones"></textarea>
+        </fieldset>
 
-      </form>
+        <button type="submit">Enviar respostas</button>
+      </div>
 
-      <!-- Mostrar depois do envio (JS troca o formulário por esta mensagem) -->
-      <!-- <section class="bloco"><h2>Obrigado!</h2><p class="sub">Agora faça o voto simulado.</p><a class="btn" href="voto.html">Ir para a votação</a></section> -->
-
-    </div>
+    </form>
   </main>
 
   <footer>
-    <div class="wrap">
-      <span>Colégio Sagrada Família · Campo Largo/PR · Projeto de Desenvolvimento Backend</span>
-      <a href="admin.html">Área restrita</a>
-    </div>
+    Colégio Sagrada Família - Campo Largo/PR |
+    <a href="admin.html">Área restrita</a>
   </footer>
 
+  <!-- Aqui entra o JavaScript depois: -->
   <!-- <script type="module" src="script.js"></script> -->
 </body>
 </html>

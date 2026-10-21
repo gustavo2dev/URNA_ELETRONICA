@@ -3,213 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DataVotoCesf · Votação simulada</title>
-  <meta name="description" content="Votação simulada do DataVotoCesf, sem valor eleitoral.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>DataVotoCesf - Votação</title>
 
   <style>
-    /* ===== Tokens ===== */
-    :root{
-      --ink:#111936; --muted:#55608a; --cobalt:#2a3fd8; --cobalt-dark:#1a2a9c;
-      --chalk:#f2f4fb; --line:#d6dbee; --sun:#ffc83d; --mint:#17935a;
-      --urna:#cfd0cc; --urna-dark:#a9aaa5; --tela:#e6eddf; --tela-ink:#1d2a1a;
-      --display:'Bricolage Grotesque','Figtree',system-ui,sans-serif;
-      --body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
-    }
-    *{box-sizing:border-box;margin:0}
-    body{font-family:var(--body);font-size:17px;line-height:1.55;background:var(--chalk);color:var(--ink)}
-    h1,h2,h3{font-family:var(--display);line-height:1.08;letter-spacing:-.02em}
-    a{color:inherit}
-    :focus-visible{outline:3px solid var(--sun);outline-offset:3px}
-    @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+    /* ===== Estilo da página (CSS) ===== */
+    body { font-family: Arial, sans-serif; background: #f0f2f8; color: #1b2340; margin: 0; line-height: 1.5; }
 
-    /* ===== Topo ===== */
-    .topo{background:var(--cobalt);color:#fff}
-    .topo-barra{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;width:min(100% - 2rem, 1040px);margin-inline:auto}
-    .marca{font-family:var(--display);font-weight:800;font-size:1.25rem;text-decoration:none;letter-spacing:-.02em}
-    .marca small{font-family:var(--body);font-weight:600;font-size:.8rem;opacity:.75;margin-left:.5rem}
-    nav{display:flex;gap:.25rem}
-    nav a{padding:.45rem .9rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.95rem}
-    nav a[aria-current="page"]{background:#fff;color:var(--cobalt)}
-    nav a:not([aria-current]):hover{background:rgba(255,255,255,.16)}
-    .intro{width:min(100% - 2rem, 1040px);margin-inline:auto;padding:1.5rem 0 5rem}
-    .intro h1{font-size:clamp(2.1rem,5vw,3.6rem);font-weight:800}
-    .intro p{margin-top:.9rem;max-width:46ch;opacity:.92;font-size:1.1rem}
+    header { background: #2a3fd8; color: white; padding: 1rem; }
+    header a { color: white; margin-right: 1rem; }
 
-    /* ===== Urna ===== */
-    main{width:min(100% - 2rem, 1040px);margin:-3rem auto 3rem}
-    .aviso-sim{background:var(--sun);border-radius:12px;padding:.8rem 1.1rem;font-weight:600;margin-bottom:1.25rem}
+    main { max-width: 700px; margin: 1.5rem auto; padding: 0 1rem; }
 
-    .urna{background:var(--urna);border-radius:22px;padding:1.4rem;display:grid;grid-template-columns:1.25fr 1fr;gap:1.4rem;box-shadow:0 22px 0 -10px var(--urna-dark),0 30px 50px -20px rgba(17,25,54,.4)}
+    .caixa { background: white; border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem; }
 
-    /* tela */
-    .tela{background:var(--tela);color:var(--tela-ink);border:6px solid #8d8e89;border-radius:10px;padding:1.4rem 1.4rem 1.6rem;min-height:23rem;display:flex;flex-direction:column;gap:1rem}
-    .tela-topo{display:flex;justify-content:space-between;gap:1rem;border-bottom:2px solid var(--tela-ink);padding-bottom:.6rem;font-weight:700}
-    .tela-topo span:last-child{font-weight:600;opacity:.75}
-    .estado{display:none}
-    .estado.padrao{display:block}
-    .estado p.grande{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.1}
-    .estado p.pequeno{margin-top:.6rem;opacity:.8}
-    .ficha{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;align-items:center}
-    .foto{width:6.5rem;height:8rem;background:#c9d3c2;border:2px solid var(--tela-ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:2.6rem}
-    .ficha dl{display:grid;gap:.35rem}
-    .ficha dt{font-size:.82rem;opacity:.7}
-    .ficha dd{font-weight:700;font-size:1.15rem;margin:0 0 .3rem}
-    .numero{display:inline-flex;gap:.3rem}
-    .numero b{width:2.2rem;height:2.6rem;border:2px solid var(--tela-ink);display:grid;place-items:center;font-size:1.5rem;background:#f3f7ee}
-    .rodape-tela{margin-top:auto;border-top:2px solid var(--tela-ink);padding-top:.6rem;font-size:.88rem}
+    /* Aviso amarelo no topo */
+    .aviso { background: #ffe9a6; border-radius: 8px; padding: .8rem; }
 
-    /* teclado = lista de opções (radios) */
-    .painel{display:flex;flex-direction:column;gap:.7rem}
-    .painel h2{font-size:1.15rem;margin-bottom:.1rem}
-    .opcao{position:relative}
-    .opcao input{position:absolute;opacity:0;width:1px;height:1px}
-    .opcao span{display:flex;align-items:center;gap:.9rem;background:#fff;border:2px solid var(--urna-dark);border-bottom-width:5px;border-radius:12px;padding:.7rem .9rem;cursor:pointer;font-weight:700;transition:transform .1s}
-    .opcao span em{font-style:normal;font-family:var(--display);font-weight:800;width:2.4rem;height:2.4rem;display:grid;place-items:center;background:var(--ink);color:#fff;border-radius:8px;flex:none}
-    .opcao small{display:block;font-weight:500;color:var(--muted);font-size:.85rem}
-    .opcao:hover span{border-color:var(--cobalt)}
-    .opcao input:checked+span{border-color:var(--cobalt);background:#eef0ff;transform:translateY(2px);border-bottom-width:3px}
-    .opcao input:checked+span em{background:var(--cobalt)}
-    .opcao input:focus-visible+span{outline:3px solid var(--sun);outline-offset:2px}
-    .opcao.neutra span em{background:#fff;color:var(--ink);border:2px solid var(--ink)}
-    .opcao.neutra input:checked+span em{background:var(--ink);color:#fff}
+    fieldset { border: 0; padding: 0; margin: 0 0 1rem 0; }
+    legend { font-weight: bold; margin-bottom: .4rem; }
 
-    /* botões da urna */
-    .botoes{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
-    .botoes button,.botoes label{display:block;text-align:center;font:inherit;font-weight:800;letter-spacing:.02em;border:0;border-bottom:6px solid rgba(0,0,0,.28);border-radius:10px;padding:1.05rem .5rem;cursor:pointer;color:var(--ink);transition:transform .1s,border-bottom-width .1s}
-    .botoes button:active,.botoes label:active{transform:translateY(3px);border-bottom-width:3px}
-    .b-branco{background:#fff}
-    .b-corrige{background:#ff8a2a}
-    .b-confirma{background:var(--mint);color:#fff!important}
+    .opcao { display: block; padding: .8rem; border: 1px solid #dde1f0; border-radius: 8px; margin: .4rem 0; cursor: pointer; }
+    .opcao:hover { background: #eef0ff; }
+    .opcao input { margin-right: .6rem; }
 
-    /* estados da tela, só com CSS */
-    .urna:has(input:checked) .estado.padrao{display:none}
-    .urna:has(#c1:checked) .e-c1,
-    .urna:has(#c2:checked) .e-c2,
-    .urna:has(#c3:checked) .e-c3,
-    .urna:has(#branco:checked) .e-branco,
-    .urna:has(#nulo:checked) .e-nulo{display:block}
+    /* Botões */
+    button { border: 0; padding: .8rem 1.4rem; border-radius: 8px; font-size: 1rem; cursor: pointer; color: white; margin-right: .5rem; }
+    .corrigir  { background: #e8782a; }
+    .confirmar { background: #17935a; }
 
-    .nota{margin-top:1.5rem;color:var(--muted);font-size:.92rem;max-width:62ch}
-    footer{border-top:1px solid var(--line);padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.9rem}
-    footer div{width:min(100% - 2rem, 1040px);margin-inline:auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:.75rem}
-
-    @media (max-width:820px){
-      body{font-size:16px}
-      .urna{grid-template-columns:1fr;padding:1rem}
-      .tela{min-height:19rem}
-      .marca small{display:none}
-      .ficha{grid-template-columns:1fr}
-      .botoes{gap:.55rem}
-    }
+    footer { text-align: center; color: #667; padding: 1.5rem; font-size: .9rem; }
   </style>
 </head>
+
 <body>
 
-  <header class="topo">
-    <div class="topo-barra">
-      <a class="marca" href="index.html">DataVoto<small>Colégio Sagrada Família</small></a>
-      <nav aria-label="Principal">
-        <a href="index.html">Pesquisa</a>
-        <a href="voto.html" aria-current="page">Votar</a>
-      </nav>
-    </div>
-    <div class="intro">
-      <h1>Escolha como se fosse a urna.</h1>
-      <p>Um voto por pessoa, sem identificação. O resultado entra na análise da pesquisa.</p>
-    </div>
+  <header>
+    <h1>DataVotoCesf</h1>
+    <a href="index.html">Pesquisa</a>
+    <a href="voto.html">Votar</a>
   </header>
 
   <main>
-    <p class="aviso-sim">Votação simulada para fins escolares. Não tem valor eleitoral.</p>
+    <h2>Votação simulada</h2>
+    <p class="aviso">Isto é uma simulação feita para a pesquisa da escola. Não vale como voto de verdade.</p>
 
-    <!-- JS (Firebase): no submit, ler o valor do radio name="voto" e gravar em uma coleção de votos com serverTimestamp() -->
-    <form id="form-voto" class="urna">
+    <!-- O JavaScript vai ler a opção marcada e salvar no Firebase -->
+    <form id="form-voto" class="caixa">
+      <fieldset>
+        <!-- Troque o cargo e os candidatos pelos da sua simulação (os nomes abaixo são de exemplo) -->
+        <legend>Em quem você votaria para: Cargo em disputa?</legend>
 
-      <!-- Tela -->
-      <section class="tela" aria-live="polite" aria-label="Tela da urna">
-        <div class="tela-topo">
-          <span>Cargo: <!-- TROCAR pelo cargo em disputa -->Cargo em disputa</span>
-          <span>Seu voto para</span>
-        </div>
-
-        <div class="estado padrao">
-          <p class="grande">Escolha uma opção ao lado.</p>
-          <p class="pequeno">Confira os dados na tela antes de confirmar.</p>
-        </div>
-
-        <!-- TROCAR nomes, números e partidos pelos candidatos reais da simulação -->
-        <div class="estado e-c1">
-          <div class="ficha">
-            <div class="foto" aria-hidden="true">A</div>
-            <dl>
-              <dt>Número</dt><dd><span class="numero"><b>0</b><b>1</b></span></dd>
-              <dt>Nome</dt><dd>Candidato A</dd>
-              <dt>Partido</dt><dd>Partido 01</dd>
-            </dl>
-          </div>
-        </div>
-        <div class="estado e-c2">
-          <div class="ficha">
-            <div class="foto" aria-hidden="true">B</div>
-            <dl>
-              <dt>Número</dt><dd><span class="numero"><b>0</b><b>2</b></span></dd>
-              <dt>Nome</dt><dd>Candidata B</dd>
-              <dt>Partido</dt><dd>Partido 02</dd>
-            </dl>
-          </div>
-        </div>
-        <div class="estado e-c3">
-          <div class="ficha">
-            <div class="foto" aria-hidden="true">C</div>
-            <dl>
-              <dt>Número</dt><dd><span class="numero"><b>0</b><b>3</b></span></dd>
-              <dt>Nome</dt><dd>Candidato C</dd>
-              <dt>Partido</dt><dd>Partido 03</dd>
-            </dl>
-          </div>
-        </div>
-        <div class="estado e-branco">
-          <p class="grande">Voto em branco</p>
-          <p class="pequeno">Você não escolheu nenhum candidato.</p>
-        </div>
-        <div class="estado e-nulo">
-          <p class="grande">Voto nulo</p>
-          <p class="pequeno">Seu voto não será atribuído a nenhum candidato.</p>
-        </div>
-
-        <div class="rodape-tela">Aperte CONFIRMA para votar ou CORRIGE para recomeçar.</div>
-      </section>
-
-      <!-- Opções -->
-      <fieldset class="painel" style="border:0;padding:0;min-width:0">
-        <legend style="font-family:var(--display);font-weight:800;font-size:1.15rem;margin-bottom:.4rem">Opções de voto</legend>
-
-        <label class="opcao"><input type="radio" id="c1" name="voto" value="01" required><span><em>01</em><b>Candidato A<small>Partido 01</small></b></span></label>
-        <label class="opcao"><input type="radio" id="c2" name="voto" value="02"><span><em>02</em><b>Candidata B<small>Partido 02</small></b></span></label>
-        <label class="opcao"><input type="radio" id="c3" name="voto" value="03"><span><em>03</em><b>Candidato C<small>Partido 03</small></b></span></label>
-        <label class="opcao neutra"><input type="radio" id="branco" name="voto" value="branco"><span><em>Br</em><b>Branco</b></span></label>
-        <label class="opcao neutra"><input type="radio" id="nulo" name="voto" value="nulo"><span><em>Nu</em><b>Nulo</b></span></label>
+        <label class="opcao"><input type="radio" name="voto" value="01" required> 01 - Candidato A</label>
+        <label class="opcao"><input type="radio" name="voto" value="02"> 02 - Candidata B</label>
+        <label class="opcao"><input type="radio" name="voto" value="03"> 03 - Candidato C</label>
+        <label class="opcao"><input type="radio" name="voto" value="branco"> Voto em branco</label>
+        <label class="opcao"><input type="radio" name="voto" value="nulo"> Voto nulo</label>
       </fieldset>
 
-      <!-- Botões -->
-      <div class="botoes">
-        <label class="b-branco" for="branco">BRANCO</label>
-        <button class="b-corrige" type="reset">CORRIGE</button>
-        <button class="b-confirma" type="submit">CONFIRMA</button>
-      </div>
+      <!-- type="reset" limpa a escolha -->
+      <button type="reset" class="corrigir">Corrigir</button>
+      <button type="submit" class="confirmar">Confirmar voto</button>
     </form>
-
-    <p class="nota">Os nomes, números e partidos acima são exemplos fictícios. Troque pelos dados da sua simulação antes de publicar.</p>
   </main>
 
   <footer>
-    <div>
-      <span>Colégio Sagrada Família · Campo Largo/PR · Projeto de Desenvolvimento Backend</span>
-      <a href="admin.html">Área restrita</a>
-    </div>
+    Colégio Sagrada Família - Campo Largo/PR |
+    <a href="admin.html">Área restrita</a>
   </footer>
 
   <!-- <script type="module" src="script.js"></script> -->
