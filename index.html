@@ -2,12 +2,10 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <!-- Faz o site se ajustar à tela do celular -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DataVotoCesf - Pesquisa</title>
 
   <style>
-    /* ===== Estilo da página (CSS) ===== */
     body { font-family: Arial, sans-serif; background: #f0f2f8; color: #1b2340; margin: 0; line-height: 1.5; }
 
     header { background: #2a3fd8; color: white; padding: 1rem; }
@@ -15,18 +13,19 @@
 
     main { max-width: 700px; margin: 1.5rem auto; padding: 0 1rem; }
 
-    /* "caixa" é o quadro branco de cada bloco de perguntas */
     .caixa { background: white; border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem; }
 
     fieldset { border: 0; padding: 0; margin: 0 0 1.2rem 0; }
     legend, label.titulo { font-weight: bold; margin-bottom: .4rem; display: block; }
 
-    /* Cada opção de resposta (rádio ou checkbox) */
     .opcao { display: block; padding: .5rem .7rem; border: 1px solid #dde1f0; border-radius: 8px; margin: .3rem 0; cursor: pointer; }
     .opcao:hover { background: #eef0ff; }
     .opcao input { margin-right: .5rem; }
 
-    select, input[type="number"], textarea { width: 100%; padding: .6rem; border: 1px solid #ccd1e6; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+    select, input[type="number"], textarea { width: 100%; padding: .6rem; border: 1px solid #ccd1e6; border-radius: 8px; font-size: 1rem; box-sizing: border-box; background: #fff; color: #1b2340; }
+    select:focus-visible, input[type="number"]:focus-visible, textarea:focus-visible { outline: 3px solid #8995ff; outline-offset: 2px; }
+    textarea::placeholder { color: #667085; opacity: 1; }
+    input[type="radio"], input[type="checkbox"] { accent-color: #2a3fd8; }
 
     button { background: #2a3fd8; color: white; border: 0; padding: .8rem 1.4rem; border-radius: 8px; font-size: 1rem; cursor: pointer; }
     button:hover { background: #1a2a9c; }
@@ -47,10 +46,8 @@
     <h2>Pesquisa sobre voto e vida em Campo Largo</h2>
     <p>É anônima: não pedimos nome nem CPF. Leva cerca de 5 minutos.</p>
 
-    <!-- O JavaScript vai ler este formulário e salvar no Firebase -->
     <form id="form-pesquisa">
 
-      <!-- ===== Bloco 1 ===== -->
       <div class="caixa">
         <h3>Sobre você</h3>
 
@@ -66,7 +63,6 @@
 
         <fieldset>
           <label class="titulo" for="bairro">Em que bairro de Campo Largo você mora?</label>
-          <!-- Complete a lista com os bairros que a equipe quiser -->
           <select id="bairro" name="bairro" required>
             <option value="">Escolha o bairro</option>
             <option>Centro</option>
@@ -89,7 +85,6 @@
         </fieldset>
       </div>
 
-      <!-- ===== Bloco 2 ===== -->
       <div class="caixa">
         <h3>Sua casa</h3>
 
@@ -115,7 +110,6 @@
         </fieldset>
       </div>
 
-      <!-- ===== Bloco 3 ===== -->
       <div class="caixa">
         <h3>Como você pensa o voto</h3>
 
@@ -170,7 +164,6 @@
         </fieldset>
       </div>
 
-      <!-- ===== Bloco 4 ===== -->
       <div class="caixa">
         <h3>O que a cidade precisa</h3>
 
@@ -185,7 +178,6 @@
 
         <fieldset>
           <legend>Quais são as 3 pautas mais importantes para você? (escolha até 3)</legend>
-          <!-- JS: impedir que marquem mais de 3 -->
           <label class="opcao"><input type="checkbox" name="pautas" value="saude"> Saúde</label>
           <label class="opcao"><input type="checkbox" name="pautas" value="educacao"> Educação</label>
           <label class="opcao"><input type="checkbox" name="pautas" value="seguranca"> Segurança</label>
@@ -213,7 +205,5 @@
     <a href="admin.html">Área restrita</a>
   </footer>
 
-  <!-- Aqui entra o JavaScript depois: -->
-  <!-- <script type="module" src="script.js"></script> -->
 </body>
 </html>

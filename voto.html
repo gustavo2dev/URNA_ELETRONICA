@@ -6,7 +6,6 @@
   <title>DataVotoCesf - Votação</title>
 
   <style>
-    /* ===== Estilo da página (CSS) ===== */
     body { font-family: Arial, sans-serif; background: #f0f2f8; color: #1b2340; margin: 0; line-height: 1.5; }
 
     header { background: #2a3fd8; color: white; padding: 1rem; }
@@ -16,7 +15,6 @@
 
     .caixa { background: white; border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem; }
 
-    /* Aviso amarelo no topo */
     .aviso { background: #ffe9a6; border-radius: 8px; padding: .8rem; }
 
     fieldset { border: 0; padding: 0; margin: 0 0 1rem 0; }
@@ -25,8 +23,8 @@
     .opcao { display: block; padding: .8rem; border: 1px solid #dde1f0; border-radius: 8px; margin: .4rem 0; cursor: pointer; }
     .opcao:hover { background: #eef0ff; }
     .opcao input { margin-right: .6rem; }
+    input[type="radio"] { accent-color: #2a3fd8; }
 
-    /* Botões */
     button { border: 0; padding: .8rem 1.4rem; border-radius: 8px; font-size: 1rem; cursor: pointer; color: white; margin-right: .5rem; }
     .corrigir  { background: #e8782a; }
     .confirmar { background: #17935a; }
@@ -47,10 +45,8 @@
     <h2>Votação simulada</h2>
     <p class="aviso">Isto é uma simulação feita para a pesquisa da escola. Não vale como voto de verdade.</p>
 
-    <!-- O JavaScript vai ler a opção marcada e salvar no Firebase -->
     <form id="form-voto" class="caixa">
       <fieldset>
-        <!-- Troque o cargo e os candidatos pelos da sua simulação (os nomes abaixo são de exemplo) -->
         <legend>Em quem você votaria para: Cargo em disputa?</legend>
 
         <label class="opcao"><input type="radio" name="voto" value="01" required> 01 - Candidato A</label>
@@ -60,7 +56,6 @@
         <label class="opcao"><input type="radio" name="voto" value="nulo"> Voto nulo</label>
       </fieldset>
 
-      <!-- type="reset" limpa a escolha -->
       <button type="reset" class="corrigir">Corrigir</button>
       <button type="submit" class="confirmar">Confirmar voto</button>
     </form>
@@ -71,6 +66,5 @@
     <a href="admin.html">Área restrita</a>
   </footer>
 
-  <!-- <script type="module" src="script.js"></script> -->
 </body>
 </html>

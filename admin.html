@@ -6,7 +6,6 @@
   <title>DataVotoCesf - Painel</title>
 
   <style>
-    /* ===== Estilo da página (CSS) ===== */
     body { font-family: Arial, sans-serif; background: #f0f2f8; color: #1b2340; margin: 0; line-height: 1.5; }
 
     header { background: #1b2340; color: white; padding: 1rem; }
@@ -16,19 +15,17 @@
 
     .caixa { background: white; border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem; }
 
-    input[type="password"] { width: 100%; max-width: 300px; padding: .6rem; border: 1px solid #ccd1e6; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+    input[type="password"] { width: 100%; max-width: 300px; padding: .6rem; border: 1px solid #ccd1e6; border-radius: 8px; font-size: 1rem; box-sizing: border-box; background: #fff; color: #1b2340; }
+    input[type="password"]::placeholder { color: #667085; opacity: 1; }
+    input[type="password"]:focus-visible { outline: 3px solid #8995ff; outline-offset: 2px; }
     button { background: #2a3fd8; color: white; border: 0; padding: .8rem 1.4rem; border-radius: 8px; font-size: 1rem; cursor: pointer; }
 
-    /* Os 3 números grandes do topo.
-       "auto-fit" faz eles ficarem lado a lado no PC e um embaixo do outro no celular. */
     .metricas { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
     .metrica { background: white; border-radius: 12px; padding: 1.2rem; }
     .metrica strong { display: block; font-size: 2.5rem; color: #2a3fd8; }
 
-    /* Gráficos */
     canvas { max-width: 100%; background: #f6f7fc; border: 2px dashed #ccd1e6; border-radius: 8px; }
 
-    /* Tabela (rola de lado no celular) */
     .tabela { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; }
     th, td { text-align: left; padding: .6rem; border-bottom: 1px solid #e3e6f3; }
@@ -47,7 +44,6 @@
 
   <main>
 
-    <!-- ===== 1. Login ===== -->
     <section class="caixa" id="area-login">
       <h2>Entrar</h2>
       <form id="form-login">
@@ -58,10 +54,7 @@
       </form>
     </section>
 
-    <!-- ===== 2. Painel =====
-         Por enquanto aparece sempre. Depois, o JavaScript esconde esta parte
-         e só mostra quando a senha estiver certa. -->
-    <section id="area-painel">
+    <section id="area-painel" hidden>
       <h2>Resultados</h2>
 
       <div class="metricas">
@@ -70,7 +63,6 @@
         <div class="metrica"><span>Média de trabalhadores</span><strong id="media-trabalhadores">0</strong></div>
       </div>
 
-      <!-- O Chart.js desenha dentro de cada canvas -->
       <div class="caixa"><h3>Faixa etária</h3><canvas id="grafico-faixa"></canvas></div>
       <div class="caixa"><h3>Bairro</h3><canvas id="grafico-bairro"></canvas></div>
       <div class="caixa"><h3>Certeza do voto</h3><canvas id="grafico-certeza"></canvas></div>
@@ -95,8 +87,5 @@
 
   <footer>Colégio Sagrada Família - Campo Largo/PR</footer>
 
-  <!-- Depois: biblioteca de gráficos e o seu JavaScript -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
-  <!-- <script type="module" src="admin.js"></script> -->
 </body>
 </html>
