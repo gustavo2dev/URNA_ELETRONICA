@@ -4,34 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DataVotoCesf - Pesquisa</title>
-
-  <style>
-    body { font-family: Arial, sans-serif; background: #f0f2f8; color: #1b2340; margin: 0; line-height: 1.5; }
-
-    header { background: #2a3fd8; color: white; padding: 1rem; }
-    header a { color: white; margin-right: 1rem; }
-
-    main { max-width: 700px; margin: 1.5rem auto; padding: 0 1rem; }
-
-    .caixa { background: white; border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem; }
-
-    fieldset { border: 0; padding: 0; margin: 0 0 1.2rem 0; }
-    legend, label.titulo { font-weight: bold; margin-bottom: .4rem; display: block; }
-
-    .opcao { display: block; padding: .5rem .7rem; border: 1px solid #dde1f0; border-radius: 8px; margin: .3rem 0; cursor: pointer; }
-    .opcao:hover { background: #eef0ff; }
-    .opcao input { margin-right: .5rem; }
-
-    select, input[type="number"], textarea { width: 100%; padding: .6rem; border: 1px solid #ccd1e6; border-radius: 8px; font-size: 1rem; box-sizing: border-box; background: #fff; color: #1b2340; }
-    select:focus-visible, input[type="number"]:focus-visible, textarea:focus-visible { outline: 3px solid #8995ff; outline-offset: 2px; }
-    textarea::placeholder { color: #667085; opacity: 1; }
-    input[type="radio"], input[type="checkbox"] { accent-color: #2a3fd8; }
-
-    button { background: #2a3fd8; color: white; border: 0; padding: .8rem 1.4rem; border-radius: 8px; font-size: 1rem; cursor: pointer; }
-    button:hover { background: #1a2a9c; }
-
-    footer { text-align: center; color: #667; padding: 1.5rem; font-size: .9rem; }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -39,12 +12,13 @@
   <header>
     <h1>DataVotoCesf</h1>
     <a href="index.html">Pesquisa</a>
-    <a href="voto.html">Votar</a>
   </header>
 
   <main>
     <h2>Pesquisa sobre voto e vida em Campo Largo</h2>
     <p>É anônima: não pedimos nome nem CPF. Leva cerca de 5 minutos.</p>
+
+    <p id="mensagem" class="mensagem" role="status" hidden></p>
 
     <form id="form-pesquisa">
 
@@ -193,7 +167,20 @@
           <label class="titulo" for="mudanca">Se pudesse mudar uma coisa no seu bairro amanhã, o que seria? (opcional)</label>
           <textarea id="mudanca" name="mudancaBairro" rows="4" maxlength="280" placeholder="Não escreva nomes nem telefones"></textarea>
         </fieldset>
+      </div>
 
+      <div class="caixa">
+        <h3>Votação simulada</h3>
+        <p class="aviso">Isto é uma simulação feita para a pesquisa da escola. Não vale como voto de verdade.</p>
+
+        <fieldset>
+          <legend>Em quem você votaria para Presidente da República? (2º turno, 25/10/2026)</legend>
+          <label class="opcao"><input type="radio" name="voto" value="13" required> 13 - Lula (PT)</label>
+          <label class="opcao"><input type="radio" name="voto" value="22"> 22 - Flávio Bolsonaro (PL)</label>
+          <label class="opcao"><input type="radio" name="voto" value="branco"> Voto em branco</label>
+        </fieldset>
+
+        <button type="button" id="corrigir-voto" class="corrigir">Corrigir voto</button>
         <button type="submit">Enviar respostas</button>
       </div>
 
@@ -205,5 +192,6 @@
     <a href="admin.html">Área restrita</a>
   </footer>
 
+  <script type="module" src="js/script.js"></script>
 </body>
 </html>

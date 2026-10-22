@@ -4,42 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DataVotoCesf - Painel</title>
-
-  <style>
-    body { font-family: Arial, sans-serif; background: #f0f2f8; color: #1b2340; margin: 0; line-height: 1.5; }
-
-    header { background: #1b2340; color: white; padding: 1rem; }
-    header a { color: white; margin-right: 1rem; }
-
-    main { max-width: 900px; margin: 1.5rem auto; padding: 0 1rem; }
-
-    .caixa { background: white; border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem; }
-
-    input[type="password"] { width: 100%; max-width: 300px; padding: .6rem; border: 1px solid #ccd1e6; border-radius: 8px; font-size: 1rem; box-sizing: border-box; background: #fff; color: #1b2340; }
-    input[type="password"]::placeholder { color: #667085; opacity: 1; }
-    input[type="password"]:focus-visible { outline: 3px solid #8995ff; outline-offset: 2px; }
-    button { background: #2a3fd8; color: white; border: 0; padding: .8rem 1.4rem; border-radius: 8px; font-size: 1rem; cursor: pointer; }
-
-    .metricas { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
-    .metrica { background: white; border-radius: 12px; padding: 1.2rem; }
-    .metrica strong { display: block; font-size: 2.5rem; color: #2a3fd8; }
-
-    canvas { max-width: 100%; background: #f6f7fc; border: 2px dashed #ccd1e6; border-radius: 8px; }
-
-    .tabela { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { text-align: left; padding: .6rem; border-bottom: 1px solid #e3e6f3; }
-
-    footer { text-align: center; color: #667; padding: 1.5rem; font-size: .9rem; }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="admin">
 
   <header>
     <h1>DataVotoCesf - Painel restrito</h1>
     <a href="index.html">Pesquisa</a>
-    <a href="voto.html">Votar</a>
   </header>
 
   <main>
@@ -87,5 +59,7 @@
 
   <footer>Colégio Sagrada Família - Campo Largo/PR</footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script type="module" src="js/admin.js"></script>
 </body>
 </html>
